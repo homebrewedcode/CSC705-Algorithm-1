@@ -18,7 +18,7 @@ module SubstringSearch
 
       diff = (n - m) + 1
 
-      diff.times do |i|
+      diff.tim do |i|
         m.times do |j|
           if txt_array[i + j] != @pat[j]
             break

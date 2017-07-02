@@ -6,41 +6,37 @@ module SubstringSearch
   #NOTE: in this example, we are using Ruby loops which does not
   #do a compare, but I made each trip into the loop a "compare count"
   #which is basically what we are concerned about.
-  def SubstringSearch.brute_force(pat, txt)
-    m = pat.length
-    n = txt.length
-    pat_array = pat.split('')
-    txt_array = txt.split('')
-    passes = 0
+  class BruteForce
+    def initialize(pat)
+      @pat = pat.split('')
+    end
 
-    diff = (n - m) + 1
+    def search(txt)
+      m = @pat.length
+      n = txt.length
+      txt_array = txt.split('')
 
-    diff.times do |i|
-      passes += 1
-      m.times do |j|
-        passes += 1
-        if txt_array[i + j] != pat_array[j]
-          passes += 1
-          break
-        end
-        if (j + 1) == m
-          passes += 1
-          puts "Op Count: #{passes}"
-          return i
+      diff = (n - m) + 1
+
+      diff.times do |i|
+        m.times do |j|
+          if txt_array[i + j] != @pat[j]
+            break
+          end
+          if (j + 1) == m
+            return i
+          end
         end
       end
+      n
     end
-    puts "Op Count: #{passes}"
-    n
   end
-
-  #Knuth-Morris-Pratt substring search algorightm
+  #Knuth-Morris-Pratt substring search algorithm
   #This basically uses a DFA simulation to return its results.
   #Compare count should be 2n
   class KMP
 
     def initialize(pat)
-      @count = 0
       @pat = pat.split('')
       m = pat.length
       @dfa = Array.new(ASCII_CHARS) { Array.new(m) }
@@ -51,7 +47,6 @@ module SubstringSearch
       while j < m
         c = 0
         while c < ASCII_CHARS
-          @count += 1
           @dfa[c][j] = @dfa[c][x]
           c += 1
         end
@@ -72,13 +67,11 @@ module SubstringSearch
 
       while i < n && j < m
         # check for nil
-        @count += 1
         val = @dfa[txt_array[i].ord][j]
         val.nil? ? j = 0 : j = val
         i += 1
       end
       if j == m
-        puts "OpCount: #{@count}"
         i - m
       else
         n
@@ -87,9 +80,40 @@ module SubstringSearch
   end
 
   class BoyerMoore
+    def initialize(pat)
+      @pat = pat.split('')
+      m = pat.length
+      r = ASCII_CHARS
+      @right = Array.new(r)
 
+      (0..r-1).each {|c| @right[c] = -1 }
+      (0..m-1).each {|j| @right[@pat[j].ord] = j}
+    end
+    def search(txt)
+      txt_array = txt.split('')
+      n = txt.length
+      m = @pat.length
+      i = 0
+      while i <= n - m
+        skip = 0
+        j = m - 1
+
+        while j >= 0
+          if @pat[j] != txt_array[i + j]
+            skip = j - @right[txt_array[i + j].ord]
+            if skip < 1
+              skip = 1
+              break
+            end
+          end
+          j -= 1
+        end
+        return i if skip.zero?
+        i += skip
+      end
+      n
+    end
   end
-
 end
 
 

@@ -1,16 +1,21 @@
 require 'hitimes'
-require "./SubstringSearch"
+require "./SubstringSearch.rb"
 
 txt = ""
-1_000_000.times do
+10_000.times do
   txt << 'a'
 end
 
 txt << 'bbb'
 
-puts SubstringSearch.brute_force('bbb', txt)
+brute_force_search = SubstringSearch::BruteForce.new('bbb')
+
+puts brute_force_search.search(txt)
 
 kmp_search = SubstringSearch::KMP.new('bbb')
 
 puts kmp_search.search(txt)
 
+boyer_moore_search = SubstringSearch::BoyerMoore.new('bbb')
+
+puts boyer_moore_search.search(txt)

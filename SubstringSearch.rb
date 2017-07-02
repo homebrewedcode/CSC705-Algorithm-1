@@ -16,16 +16,12 @@ module SubstringSearch
       n = txt.length
       txt_array = txt.split('')
 
-      diff = (n - m) + 1
-
-      diff.tim do |i|
-        m.times do |j|
+      (0..n-m).each do |i|
+        (0..m-1).each do |j|
           if txt_array[i + j] != @pat[j]
             break
           end
-          if (j + 1) == m
-            return i
-          end
+          return i if (j + 1) == m
         end
       end
       n
@@ -42,19 +38,12 @@ module SubstringSearch
       @dfa = Array.new(ASCII_CHARS) { Array.new(m) }
       @dfa[@pat[0].ord][0] = 1
 
-      j = 1
+      #j = 1
       x = 0
-      while j < m
-        c = 0
-        while c < ASCII_CHARS
-          @dfa[c][j] = @dfa[c][x]
-          c += 1
-        end
-
+      (1..m-1).each do |j|
+        (0..ASCII_CHARS - 1).each { |c| @dfa[c][j] = @dfa[c][x] }
         @dfa[@pat[j].ord][j] = j + 1
         x = @dfa[@pat[j].ord][x]
-
-        j += 1
       end
     end
 

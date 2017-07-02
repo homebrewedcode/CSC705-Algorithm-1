@@ -35,7 +35,7 @@ module SubstringSearch
     def initialize(pat)
       @pat = pat.split('')
       m = pat.length
-      @dfa = Array.new(ASCII_CHARS) { Array.new(m) }
+      @dfa = Array.new(ASCII_CHARS) { Array.new(m, 0) }
       @dfa[@pat[0].ord][0] = 1
 
       #j = 1

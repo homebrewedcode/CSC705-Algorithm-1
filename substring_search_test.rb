@@ -8,7 +8,6 @@ alphabet.push("NEEDLE")
 
 def correctness(alphabet)
 
-  txt = ''
   needle = 'NEEDLE'
   fail = 0
   pass = 0

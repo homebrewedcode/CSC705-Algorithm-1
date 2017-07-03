@@ -1,11 +1,11 @@
 module SubstringSearch
   ASCII_CHARS = 256 # constant for arrays of ASCII characters
 
-  #naive brute force method for substring search algorithm
-  #Compares: mn - length of substring times the length of text to search
-  #NOTE: in this example, we are using Ruby loops which does not
-  #do a compare, but I made each trip into the loop a "compare count"
-  #which is basically what we are concerned about.
+  # naive brute force method for substring search algorithm
+  # Compares: mn - length of substring times the length of text to search
+  # NOTE: in this example, we are using Ruby loops which does not
+  # do a compare, but I made each trip into the loop a "compare count"
+  # which is basically what we are concerned about.
   class BruteForce
     def initialize(pat)
       @pat = pat.split('')
@@ -16,20 +16,22 @@ module SubstringSearch
       n = txt.length
       txt_array = txt.split('')
 
+      # loop for each index of string to search
       (0..n-m).each do |i|
+        # from current index, loop through each pattern element while we match
         (0..m-1).each do |j|
-          if txt_array[i + j] != @pat[j]
-            break
-          end
+          # break out if we find a mismatch,
+          # or return our i index if we found a match
+          break if txt_array[i + j] != @pat[j]
           return i if (j + 1) == m
         end
       end
       n
     end
   end
-  #Knuth-Morris-Pratt substring search algorithm
-  #This basically uses a DFA simulation to return its results.
-  #Compare count should be 2n
+  # Knuth-Morris-Pratt substring search algorithm
+  # This basically uses a DFA simulation to return its results.
+  # Compare count should be 2n on worst cas or slightly over n in general
   class KMP
 
     def initialize(pat)

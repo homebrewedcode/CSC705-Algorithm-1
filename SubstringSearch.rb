@@ -114,13 +114,13 @@ module SubstringSearch
         # check for pattern match at current index
         # and calculate or skip value if no match found
         while j >= 0
+
           if @pat[j] != txt_array[i + j]
             skip = j - @right[txt_array[i + j].ord]
-            if skip < 1
-              skip = 1
-              break
-            end
+            skip = 1 if skip < 1
+            break
           end
+
           j -= 1
         end
         # return our index if we did not skip

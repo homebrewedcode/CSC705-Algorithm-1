@@ -3,9 +3,6 @@ module SubstringSearch
 
   # naive brute force method for substring search algorithm
   # Compares: mn - length of substring times the length of text to search
-  # NOTE: in this example, we are using Ruby loops which does not
-  # do a compare, but I made each trip into the loop a "compare count"
-  # which is basically what we are concerned about.
   class BruteForce
     def initialize(pat)
       @pat = pat.split('')
@@ -38,7 +35,7 @@ module SubstringSearch
     def initialize(pat)
       @pat = pat.split('')
       m = pat.length
-      # initialize our DFA with 0 values our
+      # initialize our DFA with 0 values
       # our DFA is represented as a 2 dimensional array
       # we will provide an index for a possible state for each ASCII value
       @dfa = Array.new(ASCII_CHARS) { Array.new(m, 0) }
